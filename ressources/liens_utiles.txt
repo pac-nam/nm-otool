@@ -1,0 +1,3 @@
+video 42:
+https://elearning.intra.42.fr/notions/68/subnotions/264/videos/220
+
