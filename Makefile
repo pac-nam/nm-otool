@@ -10,23 +10,25 @@
 #                                                                              #
 # **************************************************************************** #
 
-NAME = nm
+NAME = ft_nm
 
-NAME2 = otool
+NAME2 = ft_otool
 
-SRC_FOLDER = srcs
+SRC1 = nm_srcs
 
-SRCS = $(addprefix $(SRC_FOLDER)/, $(NAME) $(NAME2))
+SRC2 = otool_srcs
+
+SRCS = $(SRC1) $(SRC2)
 
 all : $(NAME) $(NAME2)
 
 $(NAME):
-	make -C $(SRC_FOLDER)/$@
-	mv ft_$@ .
+	make -C $(SRC1)
+	mv $@ .
 
 $(NAME2):
-	make -C $(SRC_FOLDER)/$@
-	mv ft_$@ .
+	make -C $(SRC2)
+	mv $@ .
 
 clean :
 	make clean -C $(SRCS)
