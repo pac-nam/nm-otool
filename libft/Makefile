@@ -211,7 +211,7 @@ $(NAME): $(OBJ_FOLDER) $(OBJ)
 
 $(OBJ_FOLDER):
 	@mkdir -p $@
-	mkdir -p $(addprefix $@/, $(SUBFOLDERS))
+	@mkdir -p $(addprefix $@/, $(SUBFOLDERS))
 	@echo "creating $(NAME) object..."
 
 $(OBJ_FOLDER)/%.o: $(SRC_FOLDER)/%.c

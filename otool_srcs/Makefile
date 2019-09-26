@@ -29,7 +29,7 @@ SRC_NAME	=		main.c				\
 
 SRC = $(addprefix $(SRC_FOLDER)/, $(SRC_NAME))
 
-OBJ = $(addprefix $(OBJ_FOLDER)/, $(SRC:.c=.o))
+OBJ = $(addprefix $(OBJ_FOLDER)/, $(SRC_NAME:.c=.o))
 
 all : $(LIBDIR)/$(LIB) $(NAME)
 
@@ -39,7 +39,7 @@ $(NAME): $(OBJ_FOLDER) $(OBJ)
 
 $(OBJ_FOLDER):
 	@mkdir -p $@
-	mkdir -p $(OBJ_FOLDER)
+	@mkdir -p $(OBJ_FOLDER)
 	@echo "creating $(NAME) object..."
 
 $(OBJ_FOLDER)/%.o: $(SRC_FOLDER)/%.c
@@ -49,15 +49,17 @@ $(LIBDIR)/$(LIB):
 	@make -C $(LIBDIR)
 
 clean :
+	@make clean -C $(LIBDIR)
 	@/bin/rm -rf $(OBJ_FOLDER)
 	@echo "\033[33m[ ✔ ] $(NAME) objects deleted\033[0m"
 
 fclean : clean
-	@/bin/rm -f $(NAME).a
+	@make fclean -C $(LIBDIR)
+	@/bin/rm -f $(NAME)
 	@echo "\033[33m[ ✔ ] $(NAME) deleted\033[0m"
 
 lib : all clean
 
 re : fclean all
 
-.PHONY: $(NAME) $(OBJ_FOLDER)
+.PHONY: $(NAME)

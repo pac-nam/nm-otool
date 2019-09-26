@@ -22,19 +22,22 @@ SRCS = $(SRC1) $(SRC2)
 
 all : $(NAME) $(NAME2)
 
-$(NAME):
-	make -C $(SRC1)
-	mv $@ .
+$(NAME): $(SRC1)
+	@make -C $(SRC1)
+	@mv $(SRC1)/$@ .
 
-$(NAME2):
-	make -C $(SRC2)
-	mv $@ .
+$(NAME2): 
+	@make -C $(SRC2)
+	@mv $(SRC2)/$@ .
 
 clean :
-	make clean -C $(SRCS)
+	@make clean -C $(SRC1)
+	@make clean -C $(SRC2)
 
 fclean :
-	make fclean -C $(SRCS)
+	@make fclean -C $(SRC1)
+	@make fclean -C $(SRC2)
+	@rm -f $(NAME) $(NAME2)
 
 re : fclean all
 
