@@ -131,6 +131,7 @@ PRINT_NAME	=	ft_putchar.c			\
 				ft_putaddr.c			\
 				ft_putdbl.c				\
 				ft_printf.c				\
+				ft_buffer.c				\
 
 MATH_FOLDER = math
 MATH_NAME	=	ft_bracket.c			\

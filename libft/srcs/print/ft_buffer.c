@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_buffer.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tbleuse <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -10,29 +10,29 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_nm.h"
+#include <unistd.h>
+#include "str.h"
 
-int				main(int ac, char **av)
+int				ft_end_buff(char *buf, size_t last)
 {
-	int			i;
-	int			error;
-	t_context	*ctx;
-
-	if (ac < 2)
-	{
-		av[1] = "a.out";
-		ac++;
-	}
-	i = 0;
-	while (++i < ac)
-	{
-		ft_putendl(av[i]);
-		if (error = ft_nm_this_file(av[i]))
-		{
-			ft_putstr_fd("ERROR CODE: ", 2);
-			ft_putnbr_fd(error, 2);
-			ft_putchar_fd('\n', 2);
-		}
-	}
+	write(1, buf, last);
 	return (0);
+}
+
+int				ft_add_buff(char *buf, char *src, size_t buffsize, size_t start)
+{
+	size_t		src_len;
+
+	src_len = ft_strlen(src);
+	if (start + src_len < buffsize)
+	{
+		ft_strcpy(buf + start, src);
+		return (start + src_len);
+	}
+	else
+	{
+		ft_strncpy(buf + start, src, buffsize - start);
+		write(1, buf, buffsize);
+		return (ft_add_buff(buf, src + buffsize - start, buffsize, 0));
+	}
 }

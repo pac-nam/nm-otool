@@ -13,6 +13,8 @@
 #ifndef PRINT_H
 # define PRINT_H
 
+# include <stdlib.h>
+
 void				ft_putchar(char c);
 void				ft_putstr(char const *str);
 void				ft_putnbr(int nb);
@@ -28,5 +30,7 @@ void                ft_putdbl(double nb);
 
 int		            ft_printf(const char *str, ...);
 int					ft_printnchar(int nb, char c);
+int					ft_add_buff(char *buf, char *src, size_t buffsize, size_t start);
+int					ft_end_buff(char *buf, size_t last);
 
 #endif
