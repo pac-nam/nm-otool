@@ -25,15 +25,11 @@ int				main(int ac, char **av)
 	i = 0;
 	while (++i < ac)
 	{
-		if (av[i])
+		if (av[i] && (error = ft_nm_this_file(av[i])))
 		{
-			ft_putendl(av[i]);
-			if ((error = ft_nm_this_file(av[i])))
-			{
-				ft_putstr_fd("ERROR CODE: ", 2);
-				ft_putnbr_fd(error, 2);
-				ft_putchar_fd('\n', 2);
-			}
+			ft_putstr_fd("ERROR CODE: ", 2);
+			ft_putnbr_fd(error, 2);
+			ft_putchar_fd('\n', 2);
 		}
 	}
 	return (0);

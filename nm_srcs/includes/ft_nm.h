@@ -94,6 +94,9 @@ void				ft_nm_buffn(t_context *ctx, const char *str);
 int					ft_nm_64(t_context *ctx);
 char				*ft_hexdump(char *dst, uint32_t src);
 char				*ft_hexdump64(char *dst, uint64_t src);
+int					ft_check(t_context *ctx, void *ptr);
+int					ft_finish_nm(t_context *ctx);
+int					ft_get_sign(t_context *ctx, struct nlist_64 *list);
 
 
 #endif

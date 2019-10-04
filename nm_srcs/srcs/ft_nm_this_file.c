@@ -61,53 +61,6 @@ static int		ft_init(t_context *ctx)
 // 	ft_nm_buff(ctx, tmp->name);
 // }
 
-void				ft_print_all_functions(t_context *ctx)
-{
-	t_function		*tmp;
-	char			symbol[4];
-
-	tmp = ctx->functions;
-	while (tmp)
-	{
-		if (tmp->symbol != '-')
-		{
-			ft_nm_buff(ctx, tmp->before);
-			symbol[0] = ' ';
-			symbol[1] = tmp->symbol;
-			symbol[2] = ' ';
-			symbol[3] = '\0';
-			ft_nm_buff(ctx, &(symbol[0]));
-			ft_nm_buffn(ctx, tmp->name);
-		}
-		tmp = tmp->next;
-	}
-}
-
-static int		ft_finish_nm(t_context *ctx)
-{
-	void		*tmp;
-
-	ft_print_all_functions(ctx);
-	ft_nm_buff_end(ctx);
-	//ft_putnbr(ctx->file_size);
-	//ft_putaddr(ctx->master_start);
-	//ft_putchar('\n');
-	munmap(ctx->master_start, ctx->file_size);
-	//ft_putendl("REMEMBER SEGFAULT MUNMAP");
-	while ((tmp = ctx->sec_symbols))
-	{
-		ctx->sec_symbols = ((t_section_symbol*)tmp)->next;
-		free(tmp);
-	}
-	while ((tmp = ctx->functions))
-	{
-		ctx->functions = ((t_function*)tmp)->next;
-		free(tmp);
-	}
-	close(ctx->fd);
-	return (0);
-}
-
 int				ft_nm_this_file(const char *file)
 {
 	int			error;

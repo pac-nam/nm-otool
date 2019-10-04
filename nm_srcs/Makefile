@@ -31,6 +31,9 @@ SRC_NAME	=		main.c				\
 					ft_nm_this_file.c	\
 					ft_nm_64.c			\
 					ft_hexdump.c		\
+					ft_check.c			\
+					ft_finish_nm.c		\
+					ft_symbol_64.c		\
 
 SRC = $(addprefix $(SRC_FOLDER)/, $(SRC_NAME))
 
