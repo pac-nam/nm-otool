@@ -1,0 +1,147 @@
+ft_nm
+address ctx: 0x7FFF5D862A60
+address ctx: 0x7FFF5D862A60
+address ctx: 0x7FFF5D862A60
+load_command: 0
+nsect size: 0
+load_command: 1
+nsect size: 5
+sectname: __text
+segname: __TEXT
+sectname: __stubs
+segname: __TEXT
+sectname: __stub_helper
+segname: __TEXT
+sectname: __cstring
+segname: __TEXT
+sectname: __unwind_info
+segname: __TEXT
+load_command: 2
+nsect size: 3
+sectname: __got
+segname: __DATA
+sectname: __nl_symbol_ptr
+segname: __DATA
+sectname: __la_symbol_ptr
+segname: __DATA
+load_command: 3
+nsect size: 0
+load_command: 4
+load_command: 5
+enter symtab
+00000001000016a0 T _ft_init
+0000000100001800 T _ft_finish_nm
+0000000100001890 T _ft_init_var
+00000001000031d0 T _ft_special_putnbr
+0000000100003640 T _ft_printf_next
+0000000100003800 T _ft_print_str
+0000000100004300 T _ft_printf_infos_z_len_pre
+0000000100004650 T _ft_printf_size
+0000000100004810 T _ft_printf_type
+0000000100004a80 T _ft_printf_s_rest
+0000000100004eb0 T _ft_printf_di_zero
+0000000100004fc0 T _ft_modif_nb
+0000000100005160 T _ft_printf_di_second
+0000000100005490 T _ft_printf_o_rest
+0000000100005660 T _ft_printf_u_rest
+00000001000058a0 T _ft_printf_p_zero
+00000001000059e0 T _ft_printf_p_rest
+0000000100005c00 T _ft_printf_ms_rest
+0000000100005e10 T _ft_printf_x_rest
+00000001000060e0 T _ft_upper_all
+0000000100006160 T _ft_printf_mx_rest
+00000001000063c0 T _ft_printf_c_rest
+0000000100006550 T _ft_printf_mc_rest
+00000001000067a0 T _ft_printf_b_rest
+0000000100006bb0 T _ft_printf_bouxmx_second
+0000000100000000 T __mh_execute_header
+00000001000038b0 T _ft_add_buff
+00000001000028d0 T _ft_addncharbefore
+0000000100001e30 T _ft_atoi
+0000000100002560 T _ft_conv_utf8
+0000000100003870 T _ft_end_buff
+00000001000019c0 T _ft_get_sign
+0000000100001d40 T _ft_hexdump
+0000000100001db0 T _ft_hexdump64
+0000000100002710 T _ft_intlen
+0000000100002670 T _ft_intlen_base
+00000001000027b0 T _ft_isdigit
+0000000100001fd0 T _ft_itoa
+0000000100003990 T _ft_last_char
+0000000100003bc0 T _ft_last_char_index
+0000000100002730 T _ft_lllen
+00000001000020e0 T _ft_lltoa
+0000000100002830 T _ft_memcpy
+0000000100002890 T _ft_memdel
+0000000100001be0 T _ft_nm_64
+00000001000013e0 T _ft_nm_buff
+00000001000014e0 T _ft_nm_buff_end
+0000000100001440 T _ft_nm_buffn
+0000000100001520 T _ft_nm_parse
+00000001000015b0 T _ft_nm_this_file
+00000001000033f0 T _ft_printf
+0000000100006630 T _ft_printf_b
+0000000100006880 T _ft_printf_bouxmx
+00000001000062c0 T _ft_printf_c
+0000000100004af0 T _ft_printf_di
+0000000100006420 T _ft_printf_mc
+0000000100005c70 T _ft_printf_md
+0000000100006c80 T _ft_printf_modulo
+0000000100006840 T _ft_printf_momu
+0000000100005a50 T _ft_printf_ms
+0000000100005f70 T _ft_printf_mx
+00000001000065b0 T _ft_printf_n
+0000000100005320 T _ft_printf_o
+0000000100005700 T _ft_printf_p
+0000000100003e80 T _ft_printf_pass_str
+0000000100004900 T _ft_printf_s
+0000000100005530 T _ft_printf_u
+0000000100005ca0 T _ft_printf_x
+0000000100003300 T _ft_printnchar
+0000000100002f90 T _ft_putchar
+0000000100002fc0 T _ft_putchar_fd
+0000000100003000 T _ft_putendl
+0000000100003020 T _ft_putendl_fd
+0000000100003090 T _ft_putnbr
+00000001000030b0 T _ft_putnbr_fd
+0000000100003260 T _ft_putnbr_n
+0000000100003290 T _ft_putstr
+00000001000032b0 T _ft_putstr_fd
+00000001000018f0 T _ft_section
+0000000100001b20 T _ft_segment64
+0000000100002a20 T _ft_strchr
+0000000100002ac0 T _ft_strcpy
+0000000100002b50 T _ft_strdel
+0000000100002b90 T _ft_strdup
+0000000100002bf0 T _ft_strlen
+0000000100002c30 T _ft_strlen_c
+0000000100002e90 T _ft_strlenwcs
+0000000100002ca0 T _ft_strncpy
+0000000100002d50 T _ft_strnstr
+0000000100001a40 T _ft_symtab
+0000000100004130 T _ft_take_infos
+00000001000027f0 T _ft_toupper
+0000000100002200 T _ft_ulltoa_base
+0000000100002350 T _ft_wc_convert
+0000000100002450 T _ft_wcs_convert
+0000000100001300 T _main
+UNKNOWN SECTION    ___stack_chk_fail
+UNKNOWN SECTION    ___stack_chk_guard
+UNKNOWN SECTION    _close
+UNKNOWN SECTION    _free
+UNKNOWN SECTION    _fstat$INODE64
+UNKNOWN SECTION    _malloc
+UNKNOWN SECTION    _mmap
+UNKNOWN SECTION    _munmap
+UNKNOWN SECTION    _open
+UNKNOWN SECTION    _write
+UNKNOWN SECTION    dyld_stub_binder
+load_command: 6
+load_command: 7
+load_command: 8
+load_command: 9
+load_command: 10
+load_command: 11
+load_command: 12
+load_command: 13
+load_command: 14

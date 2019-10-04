@@ -14,7 +14,7 @@
 **	ft_biggest return the biggest int of the two params.
 */
 
-int ft_biggest(int a, int b)
+int		ft_biggest(int a, int b)
 {
 	if (a < b)
 		return (b);

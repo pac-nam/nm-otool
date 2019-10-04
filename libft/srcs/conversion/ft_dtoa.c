@@ -23,11 +23,11 @@
 char			*ft_dtoa(double n)
 {
 	char	dst[64];
-    char    *decimal;
+	char	*decimal;
 	int		i;
 
 	ft_itoa_no_malloc(n, dst);
-    decimal = dst + ft_strlen(dst);
+	decimal = dst + ft_strlen(dst);
 	decimal[0] = '.';
 	decimal[13] = '\0';
 	i = 0;

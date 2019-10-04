@@ -1,3 +1,30 @@
 video 42:
 https://elearning.intra.42.fr/notions/68/subnotions/264/videos/220
 
+Instructions assembleur:
+http://faydoc.tripod.com/cpu/index_c.htm
+
+Syscall:
+https://opensource.apple.com/source/xnu/xnu-1504.3.12/bsd/kern/syscalls.master
+
+Documentation assembleur OSX:
+http://apfel.mathematik.uni-ulm.de/~lehn/sghpc_ws14/OSXAssembler.pdf
+
+Asm theorique:
+http://sdz.tdct.org/sdz/en-profondeur-avec-l-assembleur.html
+
+asm pratique:
+https://asmtutor.com/
+
+Each symbol name is preceded by its value (blanks if undefined).  Unless the -m option is specified, this value is followed by one of the following characters, representing the symbol type:
+- U (undefined)
+- A (absolute)
+
+
+- C (common symbol)
+- -  (for debugger  symbol  table entries; see -a below)
+- S (symbol in a section other than those above)
+- I (indirect symbol). 
+
+If the symbol is local (non-external), the symbol's type is instead represented by the corresponding lowercase letter.  A lower case u in a dynamic shared library indicates a undefined reference to a
+       private external in another module in the same library.

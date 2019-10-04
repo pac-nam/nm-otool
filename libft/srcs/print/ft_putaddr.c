@@ -16,22 +16,22 @@
 **	print address of the pointer passed in parameter.
 */
 
-void    ft_putaddr(void *ptr)
+void					ft_putaddr(void *ptr)
 {
-    unsigned long long  cpy;
-    int                 index;
-    char                str[16];
+	unsigned long long	cpy;
+	int					index;
+	char				str[16];
 
-    cpy = (unsigned long)ptr;
-    str[0] = '0';
-    str[1] = 'x';
-    index = 14;
-    while (--index > 1)
-    {
-        str[index] = (cpy % 16) + '0';
-        if (str[index] > '9')
-            str[index] += 7;
-        cpy = cpy / 16;
-    }
-    write(1, str, 14);
+	cpy = (unsigned long)ptr;
+	str[0] = '0';
+	str[1] = 'x';
+	index = 14;
+	while (--index > 1)
+	{
+		str[index] = (cpy % 16) + '0';
+		if (str[index] > '9')
+			str[index] += 7;
+		cpy = cpy / 16;
+	}
+	write(1, str, 14);
 }

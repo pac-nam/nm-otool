@@ -37,7 +37,7 @@ static int			ft_read_gnl(const int fd, char **str)
 	{
 		buf[ret] = '\0';
 		if (!*str && !(*str = ft_strdup(buf)))
-				return (-1);
+			return (-1);
 		else
 		{
 			tmp = *str;

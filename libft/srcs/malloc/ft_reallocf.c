@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "malloc.h"
+#include "malloc_srcs.h"
 
 void			*ft_reallocf(void *ptr, size_t size)
 {

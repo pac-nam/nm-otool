@@ -1,8 +1,3 @@
-
-/*
-**	ft_memcpy copy the n first byte from src to dst.
-**	WARNING: destination need sufficient space.
-*/
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */

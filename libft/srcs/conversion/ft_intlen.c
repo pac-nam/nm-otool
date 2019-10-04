@@ -18,5 +18,5 @@
 
 int		ft_intlen(int value)
 {
-	return ft_intlen_base(value, 10);
+	return (ft_intlen_base(value, 10));
 }

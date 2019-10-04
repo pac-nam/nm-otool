@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   color.h                                            :+:      :+:    :+:   */
+/*   colors.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tbleuse <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -10,8 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef COLOR_H
-# define COLOR_H
+#ifndef COLORS_H
+# define COLORS_H
 
 # define RED "\x1b[31m"
 # define GREEN "\x1b[32m"
@@ -21,11 +21,11 @@
 # define CYAN "\x1b[36m"
 # define RESET "\x1b[0m"
 
-void    ft_red(char const *str);
-void    ft_green(char const *str);
-void    ft_yellow(char const *str);
-void    ft_blue(char const *str);
-void    ft_magenta(char const *str);
-void    ft_cyan(char const *str);
+void	ft_red(char const *str);
+void	ft_green(char const *str);
+void	ft_yellow(char const *str);
+void	ft_blue(char const *str);
+void	ft_magenta(char const *str);
+void	ft_cyan(char const *str);
 
 #endif

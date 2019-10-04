@@ -12,6 +12,7 @@
 
 #include <sys/mman.h>
 #include "malloc.h"
+#include "malloc_srcs.h"
 #include "math.h"
 
 int				ft_check_ptr(t_block *page, void *to_find)

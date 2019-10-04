@@ -14,7 +14,7 @@
 **	ft_smallest return the smallest int of the two params.
 */
 
-int ft_smallest(int a, int b)
+int		ft_smallest(int a, int b)
 {
 	if (a < b)
 		return (a);

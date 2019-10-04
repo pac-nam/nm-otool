@@ -12,6 +12,7 @@
 
 #include "colors.h"
 #include "malloc.h"
+#include "malloc_srcs.h"
 #include "math.h"
 #include "print.h"
 

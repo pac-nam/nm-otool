@@ -16,7 +16,6 @@ int				main(int ac, char **av)
 {
 	int			i;
 	int			error;
-	t_context	*ctx;
 
 	if (ac < 2)
 	{
@@ -26,12 +25,15 @@ int				main(int ac, char **av)
 	i = 0;
 	while (++i < ac)
 	{
-		ft_putendl(av[i]);
-		if (error = ft_nm_this_file(av[i]))
+		if (av[i])
 		{
-			ft_putstr_fd("ERROR CODE: ", 2);
-			ft_putnbr_fd(error, 2);
-			ft_putchar_fd('\n', 2);
+			ft_putendl(av[i]);
+			if ((error = ft_nm_this_file(av[i])))
+			{
+				ft_putstr_fd("ERROR CODE: ", 2);
+				ft_putnbr_fd(error, 2);
+				ft_putchar_fd('\n', 2);
+			}
 		}
 	}
 	return (0);

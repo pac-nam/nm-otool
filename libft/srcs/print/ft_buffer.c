@@ -19,7 +19,8 @@ int				ft_end_buff(char *buf, size_t last)
 	return (0);
 }
 
-int				ft_add_buff(char *buf, char *src, size_t buffsize, size_t start)
+int				ft_add_buff(char *buf, const char *src,
+				size_t buffsize, size_t start)
 {
 	size_t		src_len;
 

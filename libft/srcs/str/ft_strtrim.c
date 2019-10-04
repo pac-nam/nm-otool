@@ -36,7 +36,7 @@ char		*ft_strtrim(char const *s)
 	while (end && (s[end] == ' ' || s[end] == '\n' || s[end] == '\t'))
 		--end;
 	if (start >= end)
-		return ft_strdup("");
+		return (ft_strdup(""));
 	if (!(str = (char*)malloc((end - start) + 1)))
 		return (NULL);
 	str[end - start] = '\0';

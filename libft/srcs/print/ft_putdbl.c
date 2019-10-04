@@ -19,14 +19,14 @@
 **  the double always have deciamal part.
 */
 
-void	    ft_putdbl(double n)
+void		ft_putdbl(double n)
 {
 	char	to_print[64];
-    char    *decimal;
+	char	*decimal;
 	int		i;
 
 	ft_itoa_no_malloc(n, to_print);
-    decimal = to_print + ft_strlen(to_print);
+	decimal = to_print + ft_strlen(to_print);
 	decimal[0] = '.';
 	decimal[13] = '\0';
 	i = 0;
@@ -35,7 +35,7 @@ void	    ft_putdbl(double n)
 		n = (n - (long)n) * 10;
 		decimal[i] = ((int)n % 10) + '0';
 	}
-    --i;
+	--i;
 	while (i > 1 && decimal[i] == '0')
 		--i;
 	decimal[i + 1] = '\0';
