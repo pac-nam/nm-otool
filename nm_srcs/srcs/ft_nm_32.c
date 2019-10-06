@@ -12,9 +12,9 @@
 
 #include "ft_nm.h"
 
-int								ft_symtab_64(t_context *ctx, struct symtab_command *command)
+int								ft_symtab_32(t_context *ctx, struct symtab_command *command)
 {
-	struct nlist_64				*array;
+	struct nlist				*array;
 	int							error;
 	char						*stringtable;
 	size_t						i;
@@ -28,7 +28,7 @@ int								ft_symtab_64(t_context *ctx, struct symtab_command *command)
 		if ((error = ft_new_function(ctx))
 		|| (error = ft_get_sign(ctx, (&array[i])->n_type, (&array[i])->n_sect,
 		(&array[i])->n_value)))
-			return (error);
+        	return (error);
 		ctx->functions->name = stringtable + array[i].n_un.n_strx;
 		i++;
 		// ft_putchar('\n');
@@ -36,14 +36,14 @@ int								ft_symtab_64(t_context *ctx, struct symtab_command *command)
 	return (0);
 }
 
-int							ft_segment_64(t_context *ctx, struct segment_command_64 *segment, int *section_index)
+int							ft_segment_32(t_context *ctx, struct segment_command *segment, int *section_index)
 {
 	uint64_t					i;
-	struct section_64			*section;
+	struct section  			*section;
 	int							error;
 
 	i = 0;
-	section = (struct section_64*)(segment + 1);
+	section = (struct section*)(segment + 1);
 	while (i < segment->nsects)
 	{
 		if (ft_check(ctx, (void*)(section + 1)))
@@ -59,28 +59,28 @@ int							ft_segment_64(t_context *ctx, struct segment_command_64 *segment, int 
 	return (0);
 }
 
-int								ft_nm_64(t_context *ctx)
+int								ft_nm_32(t_context *ctx)
 {
-	uint32_t						command_index;
+	uint32_t					command_index;
 	struct load_command			*lc;
 	int							error;
 	int							section_index;
 
 	section_index = 1;
 	ctx->header = ctx->master_start;
-	lc = ctx->header + sizeof(struct  mach_header_64);
+	lc = ctx->header + sizeof(struct mach_header);
 	command_index = 0;
-	while (command_index < ((struct  mach_header_64*)ctx->header)->ncmds && (void*)lc < ctx->master_end)
+	while (command_index < ((struct  mach_header*)ctx->header)->ncmds && (void*)lc < ctx->master_end)
 	{
-		if (lc->cmd == LC_SEGMENT_64)
+		if (lc->cmd == LC_SEGMENT)
 		{
-			if ((error = ft_segment_64(ctx, (void*)lc, &section_index)))
+			if ((error = ft_segment_32(ctx, (void*)lc, &section_index)))
 				return (error);
 		}
 		if (lc->cmd == LC_SYMTAB)
 		{
 			// ft_debug_segment(ctx);
-			if ((error = ft_symtab_64(ctx, (void*)lc)))
+			if ((error = ft_symtab_32(ctx, (void*)lc)))
 				return (error);
 		}
 		lc = (void*)lc + lc->cmdsize;

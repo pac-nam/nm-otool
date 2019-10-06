@@ -75,7 +75,7 @@ typedef struct							s_context
 	size_t								print_size;
 	const char							*file_name;
 	t_section_symbol					*sec_symbols;
-	struct  mach_header_64				*header;
+	void								*header;
 	t_function							*functions;
 }										t_context;
 
@@ -96,7 +96,11 @@ char				*ft_hexdump(char *dst, uint32_t src);
 char				*ft_hexdump64(char *dst, uint64_t src);
 int					ft_check(t_context *ctx, void *ptr);
 int					ft_finish_nm(t_context *ctx);
-int					ft_get_sign(t_context *ctx, struct nlist_64 *list);
-
+int					ft_get_sign(t_context *ctx, uint32_t type, uint32_t sect, uint32_t value);
+int					ft_nm_32(t_context *ctx);
+int					ft_new_function(t_context *ctx);
+int					ft_new_sec_symbol(t_context *ctx, char symbol, uint32_t index);
+int					ft_important_section(t_context *ctx, char *segment, char *section, int section_index);
+void				ft_debug_segment(t_context *ctx);
 
 #endif

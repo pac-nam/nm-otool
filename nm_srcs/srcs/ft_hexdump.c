@@ -37,7 +37,7 @@ char				*ft_hexdump(char *dst, uint32_t src)
 **		return char[17] (with '\0')
 */
 
-char				*ft_hexdump64(char *dst, uint64_t src)
+char				*ft_hexdump_64(char *dst, uint64_t src)
 {
 	int				i;
 	uint64_t		tmp;

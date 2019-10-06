@@ -72,7 +72,7 @@ int				ft_insert_sort_functions(t_context *ctx)
 	while ((insert = ctx->functions))
 	{
 		ctx->functions = insert->next;
-		if (ft_strcmp(new_start->name, insert->name) > 0)
+		if (ft_strcmp(new_start->name, insert->name) >= 0)
 		{
 			insert->next = new_start;
 			new_start = insert;
@@ -90,19 +90,36 @@ int				ft_insert_sort_functions(t_context *ctx)
 	return (0);
 }
 
+void	ft_revert_functions(t_context *ctx)
+{
+	t_function			*new_start;
+	t_function			*tmp;
+
+	new_start = NULL;
+	while ((tmp = ctx->functions))
+	{
+		ctx->functions = tmp->next;
+		tmp->next = new_start;
+		new_start = tmp;
+	}
+	ctx->functions = new_start;
+}
+
 int		ft_finish_nm(t_context *ctx)
 {
 	void		*tmp;
 
-	//ft_sort_functions(ctx);
+	// if (option_P)
+		// ft_revert_functions(ctx);
+	// else
 	ft_insert_sort_functions(ctx);
 	ft_print_all_functions(ctx);
 	ft_nm_buff_end(ctx);
-	//ft_putnbr(ctx->file_size);
-	//ft_putaddr(ctx->master_start);
-	//ft_putchar('\n');
+	// ft_putnbr(ctx->file_size);
+	// ft_putaddr(ctx->master_start);
+	// ft_putchar('\n');
 	munmap(ctx->master_start, ctx->file_size);
-	//ft_putendl("REMEMBER SEGFAULT MUNMAP");
+	// ft_putendl("REMEMBER SEGFAULT MUNMAP");
 	while ((tmp = ctx->sec_symbols))
 	{
 		ctx->sec_symbols = ((t_section_symbol*)tmp)->next;

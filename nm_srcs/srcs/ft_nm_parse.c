@@ -19,8 +19,8 @@ int					ft_nm_parse(t_context *ctx)
 	magic_number = *(uint32_t*)ctx->master_start;
 	if (magic_number == MH_MAGIC_64)
 		return (ft_nm_64(ctx));
-	if (magic_number == MH_MAGIC)
-		return (ft_nm_64(ctx));  //must be changed
-	ft_putendl_fd("header does not match", 2);
+	if (magic_number == 0xfeedface)
+		return (ft_nm_32(ctx));  //must be changed
+	ft_printf("magic_number %x does not match\n", magic_number);
 	return (310);
 }

@@ -32,7 +32,7 @@ int								ft_secsymbol(t_context *ctx, uint8_t section_number)
 	return (0);
 }
 
-void							ft_before(t_context *ctx, struct nlist_64 *list)
+void							ft_before(t_context *ctx, uint32_t value)
 {
 	if (ctx->header->filetype == MH_DYLIB || ctx->header->filetype == MH_OBJECT)
 	{
@@ -42,27 +42,27 @@ void							ft_before(t_context *ctx, struct nlist_64 *list)
 	{
 		ft_strncpy(&(ctx->functions->before[0]), "00000001", 8);
 	}
-	ft_hexdump(&(ctx->functions->before[8]), list->n_value);
+	ft_hexdump(&(ctx->functions->before[8]), value);
 }
 
-int								ft_get_sign(t_context *ctx, struct	nlist_64 *list)
+int								ft_get_sign(t_context *ctx, uint32_t type, uint32_t sect, uint32_t value)
 {
 	char	sym;
 
 	// ft_printf("desc %d ", list->n_desc);
 
-	if ((list->n_type & N_TYPE) == N_SECT)
-		ft_secsymbol(ctx, list->n_sect);
-	else if (list->n_type & N_STAB)
+	if ((type & N_TYPE) == N_SECT)
+		ft_secsymbol(ctx, sect);
+	else if (type & N_STAB)
 		ctx->functions->symbol = '-';
-	else if(list->n_sect == N_UNDF && list->n_type & N_EXT && list->n_value != 0)
+	else if(sect == N_UNDF && type & N_EXT && value != 0)
 		ctx->functions->symbol = 'c';
-	else if (list->n_sect == N_UNDF)
+	else if (sect == N_UNDF)
 		ctx->functions->symbol = 'U';
 	sym = ctx->functions->symbol;
 	if (sym == 't' || sym == 'b' || sym == 'd' || sym == 'c' || sym == 's')
-		ft_before(ctx, list);
-	if (list->n_type & N_EXT)
+		ft_before(ctx, value);
+	if (type & N_EXT)
 		ctx->functions->symbol = ft_toupper(ctx->functions->symbol);
 	return (0);
 }
