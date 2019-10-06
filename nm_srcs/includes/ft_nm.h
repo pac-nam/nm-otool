@@ -24,32 +24,6 @@
 
 # include "../../libft/includes/libft.h"
 
-# define UMAJ 'U'
-# define TMAJ "T"
-# define BMAJ "B"
-# define DMAJ "D"
-# define SMAJ "S"
-# define CMAJ "C"
-# define GMAJ "G"
-# define IMAJ "I"
-# define NMAJ "N"
-# define RMAJ "R"
-# define VMAJ "V"
-# define WMAJ "W"
-# define UMIN "u"
-# define TMIN "t"
-# define BMIN "b"
-# define DMIN "d"
-# define SMIN "s"
-# define CMIN "c"
-# define GMIN "g"
-# define IMIN "i"
-# define NMIN "n"
-# define RMIN "r"
-# define VMIN "v"
-# define WMIN "w"
-# define LESS "-"
-
 typedef struct							s_section_symbol
 {
 	uint8_t								index;
@@ -85,6 +59,13 @@ typedef struct							s_section64
 	struct section_64					s;
 }										t_section64;
 
+typedef struct							s_before_info
+{
+	uint32_t							value;
+	uint32_t							filetype;
+	uint32_t							type;
+	uint32_t							section;
+}										t_before_info;
 
 int					ft_nm_this_file(const char *file);
 int					ft_nm_parse(t_context *ctx);
@@ -96,11 +77,12 @@ char				*ft_hexdump(char *dst, uint32_t src);
 char				*ft_hexdump64(char *dst, uint64_t src);
 int					ft_check(t_context *ctx, void *ptr);
 int					ft_finish_nm(t_context *ctx);
-int					ft_get_sign(t_context *ctx, uint32_t type, uint32_t sect, uint32_t value);
+int					ft_get_before_and_symbol(t_context *ctx, t_before_info *info);
 int					ft_nm_32(t_context *ctx);
 int					ft_new_function(t_context *ctx);
 int					ft_new_sec_symbol(t_context *ctx, char symbol, uint32_t index);
 int					ft_important_section(t_context *ctx, char *segment, char *section, int section_index);
 void				ft_debug_segment(t_context *ctx);
+// void				ft_before(t_context *ctx, uint32_t value, uint32_t filetype);
 
 #endif

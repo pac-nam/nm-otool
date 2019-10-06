@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_symbol_64.c                                     :+:      :+:    :+:   */
+/*   ft_symbol.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tbleuse <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -32,9 +32,14 @@ int								ft_secsymbol(t_context *ctx, uint8_t section_number)
 	return (0);
 }
 
-void							ft_before(t_context *ctx, uint32_t value)
+void				ft_before(t_context *ctx, uint32_t value, uint32_t filetype)
 {
-	if (ctx->header->filetype == MH_DYLIB || ctx->header->filetype == MH_OBJECT)
+    char            sym;
+
+	sym = ft_tolower(ctx->functions->symbol);
+	if (sym != 't' && sym != 'b' && sym != 'd' && sym != 'c' && sym != 's')
+		return ;
+	if (filetype == MH_DYLIB || filetype == MH_OBJECT)
 	{
 		ft_strncpy(&(ctx->functions->before[0]), "00000000", 8);
 	}
@@ -45,24 +50,18 @@ void							ft_before(t_context *ctx, uint32_t value)
 	ft_hexdump(&(ctx->functions->before[8]), value);
 }
 
-int								ft_get_sign(t_context *ctx, uint32_t type, uint32_t sect, uint32_t value)
+int								ft_get_before_and_symbol(t_context *ctx, t_before_info *info)
 {
-	char	sym;
-
-	// ft_printf("desc %d ", list->n_desc);
-
-	if ((type & N_TYPE) == N_SECT)
-		ft_secsymbol(ctx, sect);
-	else if (type & N_STAB)
+	if ((info->type & N_TYPE) == N_SECT)
+		ft_secsymbol(ctx, info->section);
+	else if (info->type & N_STAB)
 		ctx->functions->symbol = '-';
-	else if(sect == N_UNDF && type & N_EXT && value != 0)
+	else if(info->section == N_UNDF && info->type & N_EXT && info->value != 0)
 		ctx->functions->symbol = 'c';
-	else if (sect == N_UNDF)
+	else if (info->section == N_UNDF)
 		ctx->functions->symbol = 'U';
-	sym = ctx->functions->symbol;
-	if (sym == 't' || sym == 'b' || sym == 'd' || sym == 'c' || sym == 's')
-		ft_before(ctx, value);
-	if (type & N_EXT)
+	if (info->type & N_EXT)
 		ctx->functions->symbol = ft_toupper(ctx->functions->symbol);
+	ft_before(ctx, info->value, info->filetype);
 	return (0);
 }

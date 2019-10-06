@@ -25,7 +25,8 @@ int				main(int ac, char **av)
 	i = 0;
 	while (++i < ac)
 	{
-		// ft_putendl(av[i]);
+		if (ac > 3)
+			ft_printf("\n%s:\n", av[i]);
 		if (av[i] && (error = ft_nm_this_file(av[i])))
 		{
 			ft_putstr_fd("ERROR CODE: ", 2);

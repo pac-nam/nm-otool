@@ -18,16 +18,20 @@ int								ft_symtab_64(t_context *ctx, struct symtab_command *command)
 	int							error;
 	char						*stringtable;
 	size_t						i;
+	t_before_info				tmp;
 
 	array = ctx->header + command->symoff;
 	stringtable = ctx->header + command->stroff;
 	i = 0;
+	tmp.filetype = ((struct mach_header_64*)ctx->header)->filetype;
 	while (i < command->nsyms) 
 	{
 		// ft_printf("%s ", stringtable + array[i].n_un.n_strx);
+		tmp.value = array[i].n_value;
+		tmp.section = array[i].n_sect;
+		tmp.type = array[i].n_type;
 		if ((error = ft_new_function(ctx))
-		|| (error = ft_get_sign(ctx, (&array[i])->n_type, (&array[i])->n_sect,
-		(&array[i])->n_value)))
+		|| (error = ft_get_before_and_symbol(ctx, &tmp)))
 			return (error);
 		ctx->functions->name = stringtable + array[i].n_un.n_strx;
 		i++;
