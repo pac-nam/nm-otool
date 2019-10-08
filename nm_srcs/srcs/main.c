@@ -15,7 +15,6 @@
 int				main(int ac, char **av)
 {
 	int			i;
-	int			error;
 
 	if (ac < 2)
 	{
@@ -27,11 +26,9 @@ int				main(int ac, char **av)
 	{
 		if (ac > 3)
 			ft_printf("\n%s:\n", av[i]);
-		if (av[i] && (error = ft_nm_this_file(av[i])))
+		if (av[i] && ft_nm_this_file(av[i]) != SUCCESS)
 		{
-			ft_putstr_fd("ERROR CODE: ", 2);
-			ft_putnbr_fd(error, 2);
-			ft_putchar_fd('\n', 2);
+			ft_putstr_fd("ERROR\n", 2);
 		}
 	}
 	return (0);

@@ -20,7 +20,7 @@ void				ft_print_all_functions(t_context *ctx)
 	tmp = ctx->functions;
 	while (tmp)
 	{
-		if (tmp->symbol != '-')
+		if (tmp->symbol != '-' && tmp-> size > 0)
 		{
 			ft_nm_buff(ctx, tmp->before);
 			symbol[0] = ' ';
@@ -28,7 +28,8 @@ void				ft_print_all_functions(t_context *ctx)
 			symbol[2] = ' ';
 			symbol[3] = '\0';
 			ft_nm_buff(ctx, &(symbol[0]));
-			ft_nm_buffn(ctx, tmp->name);
+			// ft_printf("size: %d\n", tmp->size);
+			ft_nm_nbuffn(ctx, tmp->name, tmp->size);
 		}
 		tmp = tmp->next;
 	}
@@ -49,6 +50,7 @@ t_function			*ft_mini_sort(t_context *ctx)
 		return (new_start);
 	tmp = ctx->functions;
 	ctx->functions = tmp->next;
+	// ft_putendl("k");
 	if (ft_strcmp(tmp->name, new_start->name) > 0)
 	{
 		new_start->next = tmp;
@@ -59,6 +61,7 @@ t_function			*ft_mini_sort(t_context *ctx)
 		tmp->next = new_start;
 		new_start = tmp;
 	}
+	// ft_putendl("l");
 	return (new_start);
 }
 
@@ -87,7 +90,7 @@ int				ft_insert_sort_functions(t_context *ctx)
 		}
 	}
 	ctx->functions = new_start;
-	return (0);
+	return (SUCCESS);
 }
 
 void	ft_revert_functions(t_context *ctx)
@@ -109,14 +112,17 @@ int		ft_finish_nm(t_context *ctx)
 {
 	void		*tmp;
 
-	// if (option_P)
+	// ft_putendl("g");
+	// if (!option_P)
+		ft_insert_sort_functions(ctx);
+	// ft_putendl("h");
+	// if (option_P || option_R)
 		// ft_revert_functions(ctx);
-	// else
-	ft_insert_sort_functions(ctx);
 	ft_print_all_functions(ctx);
 	ft_nm_buff_end(ctx);
 	// ft_putnbr(ctx->file_size);
 	// ft_putaddr(ctx->master_start);
+	// ft_putendl("i");
 	// ft_putchar('\n');
 	munmap(ctx->master_start, ctx->file_size);
 	// ft_putendl("REMEMBER SEGFAULT MUNMAP");
@@ -130,6 +136,7 @@ int		ft_finish_nm(t_context *ctx)
 		ctx->functions = ((t_function*)tmp)->next;
 		free(tmp);
 	}
+	// ft_putendl("h");
 	close(ctx->fd);
-	return (0);
+	return (SUCCESS);
 }

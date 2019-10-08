@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_nm_64.c                                         :+:      :+:    :+:   */
+/*   ft_nm_fat.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tbleuse <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -12,7 +12,7 @@
 
 #include "ft_nm.h"
 
-int								ft_symtab_64(t_context *ctx, struct symtab_command *command)
+int								ft_symtab_fat(t_context *ctx, struct symtab_command *command)
 {
 	struct nlist_64				*array;
 	char						*stringtable;
@@ -29,7 +29,7 @@ int								ft_symtab_64(t_context *ctx, struct symtab_command *command)
 		// ft_putendl("a");
 		// ft_printf("verif 17: %d\n", array[i].n_sect);
 		tmp.value = array[i].n_value;
-		ft_printf("nb 35: %lld\n", (int)array[i].n_value);
+		// ft_printf("nb 35: %lld\n", (int)array[i].n_value);
 		tmp.section = array[i].n_sect;
 		tmp.type = array[i].n_type;
 		// ft_printf("debug 17\n");
@@ -43,7 +43,7 @@ int								ft_symtab_64(t_context *ctx, struct symtab_command *command)
 	return (SUCCESS);
 }
 
-int							ft_segment_64(t_context *ctx, struct segment_command_64 *segment, int *section_index)
+int							ft_segment_fat(t_context *ctx, struct segment_command_64 *segment, int *section_index)
 {
 	uint64_t					i;
 	struct section_64			*section;
@@ -66,35 +66,46 @@ int							ft_segment_64(t_context *ctx, struct segment_command_64 *segment, int 
 	return (SUCCESS);
 }
 
-int								ft_nm_64(t_context *ctx)
+int								ft_init_tmp_context(t_context *ctx, struct fat_arch *arch, t_context *new)
 {
-	uint32_t						command_index;
-	struct load_command			*lc;
-	int							section_index;
+	new->master_start = ctx->master_start + arch->offset;
+	new->master_end = new->master_start + arch->size;
+	new->
+	return (SUCCESS);
+}
 
-	section_index = 1;
+int								ft_nm_fat(t_context *ctx)
+{
+	uint32_t					command_index;
+	uint32_t        			nfat_arch;
+	struct fat_arch				*arch;
+	void						*tmp;
+	t_context					tmp_ctx;
+	int							best;
+
 	ctx->header = ctx->master_start;
-	lc = ctx->header + sizeof(struct  mach_header_64);
+	nfat_arch = ((struct fat_header*)ctx->master_start)->nfat_arch;
+	arch = ctx->header + sizeof(struct fat_header);
 	command_index = 0;
+	best = 0
 	// ft_printf("debug 15\n");
-	while (command_index < ((struct  mach_header_64*)ctx->header)->ncmds)
+	while (command_index < nfat_arch)
 	{
-		if (ft_check(ctx, lc + 1))
+		if (ft_check(ctx, arch + 1))
 			return (FAIL);
-		if (lc->cmd == LC_SEGMENT_64)
-		{
-			// ft_printf("segment 64\n");
-			if (ft_segment_64(ctx, (void*)lc, &section_index))
+		if (arch->cputype == CPU_TYPE_X86_64)
+			best = 100;
+		if ((arch->cputype == CPU_TYPE_POWERPC || arch->cputype == CPU_TYPE_I386) && ft_nm_32(ctx))
 				return (FAIL);
-		}
-		if (lc->cmd == LC_SYMTAB)
-		{
-			// ft_debug_segment(ctx);
-			if (ft_symtab_64(ctx, (void*)lc))
+		else if ( && ft_nm_64(ctx))
 				return (FAIL);
-		}
 		// ft_putendl("c");
-		lc = (void*)lc + lc->cmdsize;
+		while ((tmp = ctx->sec_symbols))
+		{
+			ctx->sec_symbols = ((t_section_symbol*)tmp)->next;
+			free(tmp);
+		}
+		arch++;
 		command_index++;
 		// ft_putendl("d");
 	}

@@ -12,32 +12,30 @@
 
 #include "ft_nm.h"
 
-int								ft_secsymbol(t_context *ctx, uint8_t section_number)
+void				ft_secsymbol(t_context *ctx, uint8_t section_number)
 {
 	int							i;
 	t_section_symbol		*tmp;
 
 	i = 0;
+	// ft_printf("verif 19: %d\n", section_number);
 	tmp = ctx->sec_symbols;
 	while (tmp)
 	{
 		if (tmp->index == section_number)
 		{
+			// ft_printf("verif 20: %c\n", tmp->symbol);
 			ctx->functions->symbol = tmp->symbol;
-			return (0);
+			return ;
 		}
 		tmp = tmp->next;
 	}
 	ctx->functions->symbol = 's';
-	return (0);
 }
 
 void				ft_before(t_context *ctx, uint32_t value, uint32_t filetype)
 {
-    char            sym;
-
-	sym = ft_tolower(ctx->functions->symbol);
-	if (sym != 't' && sym != 'b' && sym != 'd' && sym != 'c' && sym != 's')
+	if (ft_tolower(ctx->functions->symbol) == 'u')
 		return ;
 	if (filetype == MH_DYLIB || filetype == MH_OBJECT)
 	{
@@ -47,21 +45,50 @@ void				ft_before(t_context *ctx, uint32_t value, uint32_t filetype)
 	{
 		ft_strncpy(&(ctx->functions->before[0]), "00000001", 8);
 	}
-	ft_hexdump(&(ctx->functions->before[8]), value);
+	if (*(uint32_t*)ctx->master_start == MH_MAGIC)
+	{
+		ft_hexdump(&(ctx->functions->before[0]), value);
+		ctx->functions->before[8] = '\0';
+	}
+	else if (*(uint32_t*)ctx->master_start == MH_MAGIC_64)
+		ft_hexdump(&(ctx->functions->before[8]), value);
 }
 
-int								ft_get_before_and_symbol(t_context *ctx, t_before_info *info)
+int					ft_get_name(t_context *ctx, char *name, uint32_t stroff)
+{
+	int			i;
+
+	i = 0;
+	// ft_printf("debug 18\n");
+	if(ft_check(ctx, name))
+		return (FAIL);
+	while((ctx->master_start + i + stroff + 1) < ctx->master_end && name[i])
+		++i;
+	ctx->functions->size = i;
+	ctx->functions->name = name;
+	// ft_printf("debug 19 %d\n", i);
+	return (SUCCESS);
+}
+
+int					ft_get_before_and_symbol(t_context *ctx, t_before_info *info)
 {
 	if ((info->type & N_TYPE) == N_SECT)
+	{
 		ft_secsymbol(ctx, info->section);
+	}
 	else if (info->type & N_STAB)
 		ctx->functions->symbol = '-';
 	else if(info->section == N_UNDF && info->type & N_EXT && info->value != 0)
 		ctx->functions->symbol = 'c';
 	else if (info->section == N_UNDF)
-		ctx->functions->symbol = 'U';
+		ctx->functions->symbol = 'u';
+	else if (info->section == N_ABS)
+		ctx->functions->symbol = 'a';
+	else if (info->section == N_INDR)
+		ctx->functions->symbol = 'i';
 	if (info->type & N_EXT)
 		ctx->functions->symbol = ft_toupper(ctx->functions->symbol);
+	// ft_printf("symbol: %c\n", ctx->functions->symbol);
 	ft_before(ctx, info->value, info->filetype);
-	return (0);
+	return (SUCCESS);
 }

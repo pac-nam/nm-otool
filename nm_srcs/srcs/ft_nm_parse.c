@@ -17,10 +17,13 @@ int					ft_nm_parse(t_context *ctx)
 	uint32_t		magic_number;
 
 	magic_number = *(uint32_t*)ctx->master_start;
+	// ft_printf("debug 14\n");
 	if (magic_number == MH_MAGIC_64)
 		return (ft_nm_64(ctx));
-	if (magic_number == 0xfeedface)
-		return (ft_nm_32(ctx));  //must be changed
+	else if (magic_number == MH_MAGIC)
+		return (ft_nm_32(ctx));
+	else if (magic_number == FAT_MAGIC)
+		return (ft_nm_fat(ctx));
 	ft_printf("magic_number %x does not match\n", magic_number);
-	return (310);
+	return (FAIL);
 }

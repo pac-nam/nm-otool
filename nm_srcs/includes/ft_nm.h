@@ -18,11 +18,15 @@
 # include <sys/mman.h>
 # include <mach-o/loader.h>
 # include <mach-o/nlist.h>
+# include <mach-o/fat.h>
 # include <fcntl.h>
 # include <sys/stat.h>
 # include <stdlib.h>
 
 # include "../../libft/includes/libft.h"
+
+#define FAIL -1
+#define SUCCESS 0
 
 typedef struct							s_section_symbol
 {
@@ -36,6 +40,7 @@ typedef struct							s_function
 	char								before[17];
 	char								symbol;
 	char								*name;
+	int									size;
 	struct s_function					*next;
 }										t_function;
 
@@ -53,15 +58,15 @@ typedef struct							s_context
 	t_function							*functions;
 }										t_context;
 
-typedef struct							s_section64
-{
-	struct s_section64					*next;
-	struct section_64					s;
-}										t_section64;
+// typedef struct							s_section64
+// {
+// 	struct s_section64					*next;
+// 	struct section_64					s;
+// }										t_section64;
 
 typedef struct							s_before_info
 {
-	uint32_t							value;
+	uint64_t							value;
 	uint32_t							filetype;
 	uint32_t							type;
 	uint32_t							section;
@@ -72,6 +77,7 @@ int					ft_nm_parse(t_context *ctx);
 void				ft_nm_buff_end(t_context *ctx);
 void				ft_nm_buff(t_context *ctx, const char *str);
 void				ft_nm_buffn(t_context *ctx, const char *str);
+void				ft_nm_nbuffn(t_context *ctx, const char *str, int size);
 int					ft_nm_64(t_context *ctx);
 char				*ft_hexdump(char *dst, uint32_t src);
 char				*ft_hexdump64(char *dst, uint64_t src);
@@ -83,6 +89,8 @@ int					ft_new_function(t_context *ctx);
 int					ft_new_sec_symbol(t_context *ctx, char symbol, uint32_t index);
 int					ft_important_section(t_context *ctx, char *segment, char *section, int section_index);
 void				ft_debug_segment(t_context *ctx);
+int					ft_get_name(t_context *ctx, char *name, uint32_t stroff);
+int					ft_nm_fat(t_context *ctx);
 // void				ft_before(t_context *ctx, uint32_t value, uint32_t filetype);
 
 #endif

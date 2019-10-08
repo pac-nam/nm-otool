@@ -19,10 +19,12 @@ static int		ft_init_var(t_context *ctx, struct stat	*buf)
 	ctx->print_size = 0;
 	ctx->sec_symbols = NULL;
 	ctx->functions = NULL;
+	// ft_printf("debug 13\n");
 	//ft_putnbr(ctx->file_size);
 	//ft_putaddr(ctx->master_start);
 	//ft_putchar('\n');
-	return (0);
+	return (SUCCESS);
+
 }
 
 static int		ft_init(t_context *ctx)
@@ -32,22 +34,26 @@ static int		ft_init(t_context *ctx)
 	if ((ctx->fd = open(ctx->file_name, O_RDONLY)) < 0)
 	{
 		ft_putendl_fd("open error", 2);
-		return (110);
+		return (FAIL);
 	}
+	// ft_putendl("debug here 1");
 	if (fstat(ctx->fd, &buf) < 0)
 	{
 		ft_putendl_fd("fstat error", 2);
-		return (120);
+		return (FAIL);
 	}
+	// ft_putendl("debug here 2");
 	if (S_ISDIR(buf.st_mode))
 	{
 		ft_putendl_fd("cannot open directory", 2);
-		return (130);
+		return (FAIL);
 	}
+	// ft_putendl("debug here 3");
+	// ft_printf("st_size %lld\n", buf.st_size);
 	if ((ctx->master_start = mmap(0, buf.st_size, PROT_READ, MAP_PRIVATE, ctx->fd, 0)) == MAP_FAILED)
 	{
 		ft_putendl_fd("mmap error", 2);
-		return (140);
+		return (FAIL);
 	}
 	return (ft_init_var(ctx, &buf));
 }
@@ -63,13 +69,12 @@ static int		ft_init(t_context *ctx)
 
 int				ft_nm_this_file(const char *file)
 {
-	int			error;
 	t_context	ctx;
 
 	ctx.file_name = file;
-	if ((error = ft_init(&ctx))
-	|| (error = ft_nm_parse(&ctx))
-	|| (error = ft_finish_nm(&ctx)))
-		return (error);
-	return (0);
+	if ((ft_init(&ctx) != SUCCESS)
+	|| (ft_nm_parse(&ctx) != SUCCESS)
+	|| (ft_finish_nm(&ctx) != SUCCESS))
+		return (FAIL);
+	return (SUCCESS);
 }

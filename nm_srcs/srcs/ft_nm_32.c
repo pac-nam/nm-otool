@@ -15,80 +15,92 @@
 int								ft_symtab_32(t_context *ctx, struct symtab_command *command)
 {
 	struct nlist				*array;
-	int							error;
 	char						*stringtable;
 	size_t						i;
 	t_before_info				tmp;
 
+	// ft_putendl("debug 3");
 	array = ctx->header + command->symoff;
 	stringtable = ctx->header + command->stroff;
 	i = 0;
 	tmp.filetype = ((struct mach_header*)ctx->header)->filetype;
 	while (i < command->nsyms) 
 	{
+		// ft_putendl("a");
 		// ft_printf("%s ", stringtable + array[i].n_un.n_strx);
 		tmp.value = array[i].n_value;
 		tmp.section = array[i].n_sect;
 		tmp.type = array[i].n_type;
-		if ((error = ft_new_function(ctx))
-		|| (error = ft_get_before_and_symbol(ctx, &tmp)))
-			return (error);
-		ctx->functions->name = stringtable + array[i].n_un.n_strx;
+		if (ft_new_function(ctx) || ft_get_before_and_symbol(ctx, &tmp)
+		|| ft_get_name(ctx, stringtable + array[i].n_un.n_strx, command->stroff))
+			return (FAIL);
 		i++;
 		// ft_putchar('\n');
+		// ft_putendl("b");
 	}
-	return (0);
+	return (SUCCESS);
 }
 
 int							ft_segment_32(t_context *ctx, struct segment_command *segment, int *section_index)
 {
 	uint64_t					i;
-	struct section  			*section;
-	int							error;
+	struct section				*section;
 
 	i = 0;
 	section = (struct section*)(segment + 1);
+	if (ft_check(ctx, section))
+		return (FAIL);
 	while (i < segment->nsects)
 	{
 		if (ft_check(ctx, (void*)(section + 1)))
-			return (810);
+			return (FAIL);
 		// ft_printf("section %d %s | section %s\n", section_index, section->segname, section->sectname);
-		if ((error = ft_important_section(ctx, section->segname, section->sectname, *section_index)))
-			return (error);
+		if (ft_important_section(ctx, section->segname, section->sectname, *section_index))
+			return (FAIL);
 		*section_index += 1;
 		section += 1;
 		++i;
 	}
-	ctx->fd = ctx->fd;
-	return (0);
+	return (SUCCESS);
 }
 
 int								ft_nm_32(t_context *ctx)
 {
 	uint32_t					command_index;
 	struct load_command			*lc;
-	int							error;
 	int							section_index;
 
 	section_index = 1;
+	// ft_printf("debug 15\n");
 	ctx->header = ctx->master_start;
-	lc = ctx->header + sizeof(struct mach_header);
+	lc = ctx->header + sizeof(struct  mach_header);
 	command_index = 0;
-	while (command_index < ((struct  mach_header*)ctx->header)->ncmds && (void*)lc < ctx->master_end)
+	while (command_index < ((struct  mach_header*)ctx->header)->ncmds)
 	{
+		if (ft_check(ctx, lc + 1))
+			return (FAIL);
 		if (lc->cmd == LC_SEGMENT)
 		{
-			if ((error = ft_segment_32(ctx, (void*)lc, &section_index)))
-				return (error);
+			if (ft_segment_32(ctx, (void*)lc, &section_index))
+			{
+				// ft_putendl("debug 1");
+				return (FAIL);
+			}
 		}
 		if (lc->cmd == LC_SYMTAB)
 		{
 			// ft_debug_segment(ctx);
-			if ((error = ft_symtab_32(ctx, (void*)lc)))
-				return (error);
+			if (ft_symtab_32(ctx, (void*)lc))
+			{
+				// ft_putendl("debug 2");
+				return (FAIL);
+			}
 		}
+		// ft_putendl("c");
 		lc = (void*)lc + lc->cmdsize;
 		command_index++;
+		// ft_putendl("d");
 	}
-	return (0);
+	// ft_putendl("e");
+	return (SUCCESS);
 }

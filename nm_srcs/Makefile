@@ -36,6 +36,7 @@ SRC_NAME	=	main.c						\
 				ft_symbol.c					\
 				ft_nm_32.c					\
 				multi_architectural.c		\
+				ft_nm_fat.c					\
 
 SRC = $(addprefix $(SRC_FOLDER)/, $(SRC_NAME))
 

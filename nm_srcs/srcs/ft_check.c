@@ -15,6 +15,6 @@
 int					ft_check(t_context *ctx, void *ptr)
 {
 	if (ptr < ctx->master_start || ctx->master_end < ptr)
-		return (-1);
-	return (0);
+		return (FAIL);
+	return (SUCCESS);
 }
