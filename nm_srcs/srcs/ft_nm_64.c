@@ -29,7 +29,7 @@ int								ft_symtab_64(t_context *ctx, struct symtab_command *command)
 		// ft_putendl("a");
 		// ft_printf("verif 17: %d\n", array[i].n_sect);
 		tmp.value = array[i].n_value;
-		ft_printf("nb 35: %lld\n", (int)array[i].n_value);
+		// ft_printf("nb 35: %lld\n", (int)array[i].n_value);
 		tmp.section = array[i].n_sect;
 		tmp.type = array[i].n_type;
 		// ft_printf("debug 17\n");
@@ -73,11 +73,10 @@ int								ft_nm_64(t_context *ctx)
 	int							section_index;
 
 	section_index = 1;
-	ctx->header = ctx->master_start;
 	lc = ctx->header + sizeof(struct  mach_header_64);
-	command_index = 0;
+	command_index = ((struct  mach_header_64*)ctx->header)->ncmds;
 	// ft_printf("debug 15\n");
-	while (command_index < ((struct  mach_header_64*)ctx->header)->ncmds)
+	while (command_index--)
 	{
 		if (ft_check(ctx, lc + 1))
 			return (FAIL);
@@ -89,13 +88,12 @@ int								ft_nm_64(t_context *ctx)
 		}
 		if (lc->cmd == LC_SYMTAB)
 		{
-			// ft_debug_segment(ctx);
+			ft_debug_segment(ctx);
 			if (ft_symtab_64(ctx, (void*)lc))
 				return (FAIL);
 		}
 		// ft_putendl("c");
 		lc = (void*)lc + lc->cmdsize;
-		command_index++;
 		// ft_putendl("d");
 	}
 	// ft_putendl("e");

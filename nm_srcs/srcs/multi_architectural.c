@@ -19,7 +19,7 @@ void							ft_debug_segment(t_context *ctx)
 	tmp = ctx->sec_symbols;
 	while (tmp)
 	{
-		ft_printf("section %c-%d\n", tmp->symbol, tmp->index);
+		// ft_printf("section %c-%d\n", tmp->symbol, tmp->index);
 		tmp = tmp->next;
 	}
 }
@@ -35,9 +35,9 @@ int								ft_new_function(t_context *ctx)
 		// ft_putendl("debug 5");
 		return (FAIL);
 	}
-	if (*(uint32_t*)ctx->master_start == MH_MAGIC_64)
+	if (*(uint32_t*)ctx->header == MH_MAGIC_64)
 		length = 16;
-	else if (*(uint32_t*)ctx->master_start == MH_MAGIC)
+	else if (*(uint32_t*)ctx->header == MH_MAGIC)
 		length = 8;
 	ft_memset(&(new->before[0]), ' ', length);
 	new->before[length] = 0;
@@ -64,6 +64,7 @@ int							ft_new_sec_symbol(t_context *ctx, char symbol, uint32_t index)
 
 int							ft_important_section(t_context *ctx, char *segment, char *section, int section_index)
 {
+	// ft_printf("segment: %s, section: %s\n", segment, section);
 	if (ft_strequ(segment, "__TEXT") && ft_strequ(section, "__text"))
 	{
 		if (ft_new_sec_symbol(ctx, 't', section_index))

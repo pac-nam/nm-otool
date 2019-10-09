@@ -16,12 +16,11 @@ static int		ft_init_var(t_context *ctx, struct stat	*buf)
 {
 	ctx->file_size = buf->st_size;
 	ctx->master_end = ctx->master_start + ctx->file_size;
+	ctx->header = ctx->master_start;
 	ctx->print_size = 0;
-	ctx->sec_symbols = NULL;
-	ctx->functions = NULL;
 	// ft_printf("debug 13\n");
 	//ft_putnbr(ctx->file_size);
-	//ft_putaddr(ctx->master_start);
+	//ft_putaddr(ctx->header);
 	//ft_putchar('\n');
 	return (SUCCESS);
 
@@ -31,6 +30,8 @@ static int		ft_init(t_context *ctx)
 {
 	struct stat	buf;
 
+	ctx->sec_symbols = NULL;
+	ctx->functions = NULL;
 	if ((ctx->fd = open(ctx->file_name, O_RDONLY)) < 0)
 	{
 		ft_putendl_fd("open error", 2);
@@ -58,23 +59,46 @@ static int		ft_init(t_context *ctx)
 	return (ft_init_var(ctx, &buf));
 }
 
-// void				ft_print_function(t_function func)
-// {
-// 	ft_nm_buff(ctx, tmp->before);
-// 	ft_nm_buff(ctx, " ");
-// 	ft_nm_buff(ctx, tmp->symbol);
-// 	ft_nm_buff(ctx, " ");
-// 	ft_nm_buff(ctx, tmp->name);
-// }
+int		ft_finish_nm(t_context *ctx)
+{
+	void		*tmp;
 
-int				ft_nm_this_file(const char *file)
+	if (ctx->master_start)
+		munmap(ctx->master_start, ctx->file_size);
+	// ft_putendl("REMEMBER SEGFAULT MUNMAP");
+	while ((tmp = ctx->sec_symbols))
+	{
+		ctx->sec_symbols = ((t_section_symbol*)tmp)->next;
+		free(tmp);
+	}
+	// ft_putendl("h");
+	while ((tmp = ctx->functions))
+	{
+		ctx->functions = ((t_function*)tmp)->next;
+		free(tmp);
+	}
+	// ft_putendl("h");
+	if (ctx->fd >= 0)
+		close(ctx->fd);
+	return (SUCCESS);
+}
+
+int				ft_nm_this_file(const char *file, unsigned int options)
 {
 	t_context	ctx;
 
 	ctx.file_name = file;
+	ctx.options = options;
+	// ft_printf("OPT_R 3: %d\n", (ctx.options >> OPT_R) & 0xf);
+	// ft_printf("debug ft_nm_this_file\n");
 	if ((ft_init(&ctx) != SUCCESS)
-	|| (ft_nm_parse(&ctx) != SUCCESS)
-	|| (ft_finish_nm(&ctx) != SUCCESS))
+	|| (ft_nm_parse(&ctx) != SUCCESS))
+	{
+		ft_finish_nm(&ctx);
 		return (FAIL);
+	}
+	// ft_printf("OPT_R 4: %d\n", (ctx.options >> OPT_R) & 0xf);
+	ft_print_result(&ctx);
+	ft_finish_nm(&ctx);
 	return (SUCCESS);
 }

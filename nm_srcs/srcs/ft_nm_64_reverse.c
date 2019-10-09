@@ -1,7 +1,7 @@
 // /* ************************************************************************** */
 // /*                                                                            */
 // /*                                                        :::      ::::::::   */
-// /*   ft_nm_fat.c                                        :+:      :+:    :+:   */
+// /*   ft_nm_64_reverse.c                                 :+:      :+:    :+:   */
 // /*                                                    +:+ +:+         +:+     */
 // /*   By: tbleuse <marvin@42.fr>                     +#+  +:+       +#+        */
 // /*                                                +#+#+#+#+#+   +#+           */
@@ -12,7 +12,7 @@
 
 // #include "ft_nm.h"
 
-// int								ft_symtab_fat(t_context *ctx, struct symtab_command *command)
+// int								ft_rev_symtab_64(t_context *ctx, struct symtab_command *command)
 // {
 // 	struct nlist_64				*array;
 // 	char						*stringtable;
@@ -20,8 +20,8 @@
 // 	t_before_info				tmp;
 
 // 	// ft_printf("debug 16\n");
-// 	array = ctx->header + command->symoff;
-// 	stringtable = ctx->header + command->stroff;
+// 	array = ctx->header + ft_rev32(command->symoff);
+// 	stringtable = ctx->header + ft_rev32(command->stroff);
 // 	i = 0;
 // 	tmp.filetype = ((struct mach_header_64*)ctx->header)->filetype;
 // 	while (i < command->nsyms) 
@@ -43,7 +43,7 @@
 // 	return (SUCCESS);
 // }
 
-// int							ft_segment_fat(t_context *ctx, struct segment_command_64 *segment, int *section_index)
+// int							ft_rev_segment_64(t_context *ctx, struct segment_command_64 *segment, int *section_index)
 // {
 // 	uint64_t					i;
 // 	struct section_64			*section;
@@ -66,62 +66,37 @@
 // 	return (SUCCESS);
 // }
 
-// // int								ft_init_tmp_context(t_context *ctx, struct fat_arch *arch, t_context *new)
-// // {
-// // 	new->header = ctx->header + arch->offset;
-// // 	new->master_end = new->header + arch->size;
-// // 	new->
-// // 	return (SUCCESS);
-// // }
-
-// int								ft_nm_arch(t_context *ctx, struct fat_arch *arch)
-// {
-// 	ctx->header = ctx->header + arch->offset;
-// 	if (ctx->header + arch->size > ctx->master_end)
-// 		return (FAIL);
-// 	ft_printf("magic_number: %x\n", ctx->header);
-// 	exit(1);
-// 	if (arch->cputype == CPU_TYPE_X86_64)
-// 		return (ft_nm_64(ctx));
-// 	else if (arch->cputype == CPU_TYPE_I386 || arch->cputype == CPU_TYPE_X86)
-// 		return (ft_nm_32(ctx));
-// 	return (FAIL);
-// }
-
-// int								ft_nm_fat(t_context *ctx)
+// int								ft_nm_64_reverse(t_context *ctx)
 // {
 // 	uint32_t					command_index;
-// 	struct fat_arch				*arch;
-// 	struct fat_arch				*best_arch;
-// 	int							best;
+// 	struct load_command			*lc;
+// 	int							section_index;
 
-// 	arch = ctx->header + sizeof(struct fat_header);
-// 	command_index = 0;
-// 	best = 0;
-// 	// ft_printf("debug 15\n");
-// 	while (command_index < ((struct fat_header*)ctx->header)->nfat_arch)
+// 	section_index = 1;
+// 	lc = ctx->header + sizeof(struct  mach_header_64);
+// 	command_index = ((struct  mach_header_64*)ctx->header)->ncmds;
+// 	ft_printf("debug command_index: %d\n", command_index);
+// 	while (command_index--)
 // 	{
-// 		if (ft_check(ctx, arch + 1))
+// 		if (ft_check(ctx, lc + 1))
 // 			return (FAIL);
-// 		if (arch->cputype == CPU_TYPE_X86_64)
+// 		if (lc->cmd == LC_SEGMENT_64)
 // 		{
-// 			best = 100;
-// 			best_arch = arch;
+// 			ft_printf("segment 64\n");
+// 			if (ft_rev_segment_64(ctx, (void*)lc, &section_index))
+// 				return (FAIL);
 // 		}
-// 		else if (best < 50 && arch->cputype == CPU_TYPE_I386)
+// 		if (lc->cmd == LC_SYMTAB)
 // 		{
-// 			best = 50;
-// 			best_arch = arch;
+// 			ft_debug_segment(ctx);
+// 			if (ft_rev_symtab_64(ctx, (void*)lc))
+// 				return (FAIL);
 // 		}
-// 		else if (best < 10 && arch->cputype == CPU_TYPE_X86)
-// 		{
-// 			best = 10;
-// 			best_arch = arch;
-// 		}
-// 		arch++;
-// 		command_index++;
+// 		ft_putendl("c");
+// 		// ft_printf("cmdsize: %d revcmdsize: %d\n", lc->cmdsize, ft_rev32(lc->cmdsize));
+// 		lc = (void*)lc + lc->cmdsize;
+// 		ft_putendl("d");
 // 	}
-// 	if (best)
-// 		return (ft_nm_arch(ctx, best_arch));
-// 	return (FAIL);
+// 	ft_putendl("e");
+// 	return (SUCCESS);
 // }

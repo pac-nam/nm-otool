@@ -12,6 +12,18 @@
 
 #include "ft_nm.h"
 
+int					ft_is_before(t_function *f1, t_function *f2)
+{
+	int				score;
+
+	score = ft_strcmp(f1->name, f2->name);
+	if (score > 0)
+		return (1);
+	else if (score < 0)
+		return (0);
+	return (ft_strcmp(f1->before, f2->before) > 0);
+}
+
 void				ft_print_all_functions(t_context *ctx)
 {
 	t_function		*tmp;
@@ -51,7 +63,8 @@ t_function			*ft_mini_sort(t_context *ctx)
 	tmp = ctx->functions;
 	ctx->functions = tmp->next;
 	// ft_putendl("k");
-	if (ft_strcmp(tmp->name, new_start->name) > 0)
+	// ft_printf("1: %s | 2: %s\n", tmp->name, new_start->name);
+	if (ft_is_before(tmp, new_start))
 	{
 		new_start->next = tmp;
 		tmp->next = NULL;
@@ -65,7 +78,7 @@ t_function			*ft_mini_sort(t_context *ctx)
 	return (new_start);
 }
 
-int				ft_insert_sort_functions(t_context *ctx)
+void				ft_insert_sort_functions(t_context *ctx)
 {
 	t_function			*new_start;
 	t_function			*tmp;
@@ -75,7 +88,7 @@ int				ft_insert_sort_functions(t_context *ctx)
 	while ((insert = ctx->functions))
 	{
 		ctx->functions = insert->next;
-		if (ft_strcmp(new_start->name, insert->name) >= 0)
+		if (ft_is_before(new_start, insert))
 		{
 			insert->next = new_start;
 			new_start = insert;
@@ -83,14 +96,13 @@ int				ft_insert_sort_functions(t_context *ctx)
 		else
 		{
 			tmp = new_start;
-			while (tmp->next && ft_strcmp(insert->name, tmp->next->name) > 0)
+			while (tmp->next && ft_is_before(insert, tmp->next))
 				tmp = tmp->next;
 			insert->next = tmp->next;
 			tmp->next = insert;
 		}
 	}
 	ctx->functions = new_start;
-	return (SUCCESS);
 }
 
 void	ft_revert_functions(t_context *ctx)
@@ -108,35 +120,22 @@ void	ft_revert_functions(t_context *ctx)
 	ctx->functions = new_start;
 }
 
-int		ft_finish_nm(t_context *ctx)
+void	ft_print_result(t_context *ctx)
 {
-	void		*tmp;
-
 	// ft_putendl("g");
-	// if (!option_P)
+	// ft_printf("options: %d\n", ctx->options);
+	if ((ctx->options >> OPT_MULTIPLES) & 1)
+		ft_printf("\n%s:\n", ctx->file_name);
+	if (!((ctx->options >> OPT_P) & 1))
 		ft_insert_sort_functions(ctx);
 	// ft_putendl("h");
-	// if (option_P || option_R)
-		// ft_revert_functions(ctx);
+	if (((ctx->options >> OPT_P) & 1)
+	|| ((ctx->options >> OPT_R) & 1))
+		ft_revert_functions(ctx);
 	ft_print_all_functions(ctx);
 	ft_nm_buff_end(ctx);
 	// ft_putnbr(ctx->file_size);
 	// ft_putaddr(ctx->master_start);
 	// ft_putendl("i");
 	// ft_putchar('\n');
-	munmap(ctx->master_start, ctx->file_size);
-	// ft_putendl("REMEMBER SEGFAULT MUNMAP");
-	while ((tmp = ctx->sec_symbols))
-	{
-		ctx->sec_symbols = ((t_section_symbol*)tmp)->next;
-		free(tmp);
-	}
-	while ((tmp = ctx->functions))
-	{
-		ctx->functions = ((t_function*)tmp)->next;
-		free(tmp);
-	}
-	// ft_putendl("h");
-	close(ctx->fd);
-	return (SUCCESS);
 }

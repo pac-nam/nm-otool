@@ -28,6 +28,15 @@
 #define FAIL -1
 #define SUCCESS 0
 
+#define OPT_SUCCESS 0
+#define OPT_P 1
+#define OPT_R 2
+#define OPT_U 3
+#define OPT_MU 4
+#define OPT_J 5
+#define OPT_G 6
+#define OPT_MULTIPLES 20
+
 typedef struct							s_section_symbol
 {
 	uint8_t								index;
@@ -56,6 +65,7 @@ typedef struct							s_context
 	t_section_symbol					*sec_symbols;
 	void								*header;
 	t_function							*functions;
+	unsigned int						options;
 }										t_context;
 
 // typedef struct							s_section64
@@ -72,7 +82,7 @@ typedef struct							s_before_info
 	uint32_t							section;
 }										t_before_info;
 
-int					ft_nm_this_file(const char *file);
+int					ft_nm_this_file(const char *file, unsigned int options);
 int					ft_nm_parse(t_context *ctx);
 void				ft_nm_buff_end(t_context *ctx);
 void				ft_nm_buff(t_context *ctx, const char *str);
@@ -82,7 +92,7 @@ int					ft_nm_64(t_context *ctx);
 char				*ft_hexdump(char *dst, uint32_t src);
 char				*ft_hexdump64(char *dst, uint64_t src);
 int					ft_check(t_context *ctx, void *ptr);
-int					ft_finish_nm(t_context *ctx);
+void				ft_print_result(t_context *ctx);
 int					ft_get_before_and_symbol(t_context *ctx, t_before_info *info);
 int					ft_nm_32(t_context *ctx);
 int					ft_new_function(t_context *ctx);
@@ -90,7 +100,12 @@ int					ft_new_sec_symbol(t_context *ctx, char symbol, uint32_t index);
 int					ft_important_section(t_context *ctx, char *segment, char *section, int section_index);
 void				ft_debug_segment(t_context *ctx);
 int					ft_get_name(t_context *ctx, char *name, uint32_t stroff);
-int					ft_nm_fat(t_context *ctx);
+// int					ft_nm_fat(t_context *ctx);
+uint64_t			ft_rev64(uint64_t nb);
+uint32_t			ft_rev32(uint32_t nb);
+int					ft_nm_64_reverse(t_context *ctx);
+int					ft_nm_fat_reverse(t_context *ctx);
+unsigned int		ft_set_options(int *ac, char **av);
 // void				ft_before(t_context *ctx, uint32_t value, uint32_t filetype);
 
 #endif

@@ -14,7 +14,7 @@
 
 int					ft_check(t_context *ctx, void *ptr)
 {
-	if (ptr < ctx->master_start || ctx->master_end < ptr)
+	if (ptr < ctx->header || ctx->master_end < ptr)
 		return (FAIL);
 	return (SUCCESS);
 }

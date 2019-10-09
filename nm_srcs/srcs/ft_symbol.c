@@ -33,11 +33,11 @@ void				ft_secsymbol(t_context *ctx, uint8_t section_number)
 	ctx->functions->symbol = 's';
 }
 
-void				ft_before(t_context *ctx, uint32_t value, uint32_t filetype)
+void				ft_before(t_context *ctx, uint64_t value, uint32_t filetype)
 {
 	if (ft_tolower(ctx->functions->symbol) == 'u')
 		return ;
-	if (filetype == MH_DYLIB || filetype == MH_OBJECT)
+	if (filetype == MH_DYLIB || filetype == MH_OBJECT || !value)
 	{
 		ft_strncpy(&(ctx->functions->before[0]), "00000000", 8);
 	}
@@ -45,12 +45,12 @@ void				ft_before(t_context *ctx, uint32_t value, uint32_t filetype)
 	{
 		ft_strncpy(&(ctx->functions->before[0]), "00000001", 8);
 	}
-	if (*(uint32_t*)ctx->master_start == MH_MAGIC)
+	if (*(uint32_t*)ctx->header == MH_MAGIC)
 	{
 		ft_hexdump(&(ctx->functions->before[0]), value);
 		ctx->functions->before[8] = '\0';
 	}
-	else if (*(uint32_t*)ctx->master_start == MH_MAGIC_64)
+	else if (*(uint32_t*)ctx->header == MH_MAGIC_64)
 		ft_hexdump(&(ctx->functions->before[8]), value);
 }
 
@@ -62,7 +62,7 @@ int					ft_get_name(t_context *ctx, char *name, uint32_t stroff)
 	// ft_printf("debug 18\n");
 	if(ft_check(ctx, name))
 		return (FAIL);
-	while((ctx->master_start + i + stroff + 1) < ctx->master_end && name[i])
+	while((ctx->header + i + stroff + 1) < ctx->master_end && name[i])
 		++i;
 	ctx->functions->size = i;
 	ctx->functions->name = name;
