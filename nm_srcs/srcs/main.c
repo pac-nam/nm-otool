@@ -27,7 +27,10 @@ int				main(int ac, char **av)
 		// ft_printf("\n%s: %d\n", av[i], ac);
 		if (av[i] && ft_nm_this_file(av[i], options) != SUCCESS)
 		{
-			ft_putstr_fd("ERROR\n", 2);
+			ft_putstr_fd(av[0], 2);
+			ft_putstr_fd(": ", 2);
+			ft_putstr_fd(av[i], 2);
+			ft_putstr_fd(" The file was not recognized as a valid object file\n\n", 2);
 		}
 	}
 	return (0);

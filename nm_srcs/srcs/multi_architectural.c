@@ -19,7 +19,7 @@ void							ft_debug_segment(t_context *ctx)
 	tmp = ctx->sec_symbols;
 	while (tmp)
 	{
-		// ft_printf("section %c-%d\n", tmp->symbol, tmp->index);
+		ft_printf("section %c-%d\n", tmp->symbol, tmp->index);
 		tmp = tmp->next;
 	}
 }

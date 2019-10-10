@@ -32,7 +32,7 @@ int								ft_symtab_32(t_context *ctx, struct symtab_command *command)
 		tmp.section = array[i].n_sect;
 		tmp.type = array[i].n_type;
 		if (ft_new_function(ctx) || ft_get_before_and_symbol(ctx, &tmp)
-		|| ft_get_name(ctx, stringtable + array[i].n_un.n_strx, command->stroff))
+		|| ft_get_name(ctx, stringtable + array[i].n_un.n_strx))
 			return (FAIL);
 		i++;
 		// ft_putchar('\n');
@@ -126,7 +126,7 @@ int								ft_rev_symtab_32(t_context *ctx, struct symtab_command *command)
 		tmp.type = array[i].n_type;
 		// ft_printf("debug 17\n");
 		if (ft_new_function(ctx) || ft_get_before_and_symbol(ctx, &tmp)
-		|| ft_get_name(ctx, stringtable + array[i].n_un.n_strx, command->stroff))
+		|| ft_get_name(ctx, stringtable + array[i].n_un.n_strx))
 			return (FAIL);
 		i++;
 		// ft_putchar('\n');
@@ -165,6 +165,8 @@ int								ft_nm_32_reverse(t_context *ctx)
 		lc = (void*)lc + lc->cmdsize;
 		// ft_putendl("d");
 	}
+	if (ctx->functions == NULL)
+		return (FAIL);
 	// ft_putendl("e");
 	return (SUCCESS);
 }

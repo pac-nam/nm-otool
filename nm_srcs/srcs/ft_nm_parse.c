@@ -32,7 +32,5 @@ int					ft_nm_parse(t_context *ctx)
 	// 	return (ft_nm_fat_64(ctx));
 	// else if (magic_number == FAT_CIGAM_64)
 	// 	return (ft_nm_fat_64_reverse(ctx));
-	ft_putstr_fd(ctx->file_name, 2);
-	ft_putstr_fd(" The file was not recognized as a valid object file\n", 2);
 	return (FAIL);
 }
