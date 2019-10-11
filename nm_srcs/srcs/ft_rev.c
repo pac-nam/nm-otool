@@ -12,7 +12,7 @@
 
 #include "ft_nm.h"
 
-char				*ft_rev(char *dst, char* src, int size)
+char				*ft_rev(char *dst, char *src, int size)
 {
 	int				index;
 
@@ -29,15 +29,9 @@ uint32_t			ft_rev32(uint32_t nb)
 	return (*((uint32_t*)ft_rev(&(new[0]), (char*)(&nb), 4)));
 }
 
-uint64_t		ft_rev64(uint64_t nb)
+uint64_t			ft_rev64(uint64_t nb)
 {
 	char			new[8];
 
 	return (*((uint64_t*)ft_rev(&(new[0]), (char*)(&nb), 8)));
 }
-
-// int main(void)
-// {
-// 	printf("%x\n", ft_rev32(0xbabecafe));
-// 	printf("%llx\n", ft_rev64(0xbabecafefeedface));
-// }

@@ -20,14 +20,13 @@ char				*ft_hexdump(char *dst, uint32_t src)
 {
 	int				i;
 	uint32_t		tmp;
-	const char		*tab = "0123456789abcdef";
 
 	dst[8] = '\0';
 	i = 8;
 	tmp = (uint32_t)src;
 	while (--i >= 0)
 	{
-		dst[i] = tab[tmp % 16];
+		dst[i] = NM_HEXA[tmp % 16];
 		tmp = tmp / 16;
 	}
 	return (dst);
@@ -41,14 +40,13 @@ char				*ft_hexdump_64(char *dst, uint64_t src)
 {
 	int				i;
 	uint64_t		tmp;
-	const char		*tab = "0123456789abcdef";
 
 	dst[16] = '\0';
 	i = 16;
 	tmp = (uint32_t)src;
 	while (--i >= 0)
 	{
-		dst[i] = tab[tmp % 16];
+		dst[i] = NM_HEXA[tmp % 16];
 		tmp = tmp / 16;
 	}
 	return (dst);

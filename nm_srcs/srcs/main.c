@@ -20,17 +20,15 @@ int				main(int ac, char **av)
 	if (!(options = ft_set_options(&ac, av)))
 		return (-1);
 	i = 0;
-	// ft_printf("OPT_R 1: %d\n", (options >> OPT_R) & 0xf);
-	// ft_printf("debug main\n");
 	while (++i < ac)
 	{
-		// ft_printf("\n%s: %d\n", av[i], ac);
 		if (av[i] && ft_nm_this_file(av[i], options) != SUCCESS)
 		{
 			ft_putstr_fd(av[0], 2);
 			ft_putstr_fd(": ", 2);
 			ft_putstr_fd(av[i], 2);
-			ft_putstr_fd(" The file was not recognized as a valid object file\n\n", 2);
+			ft_putstr_fd(
+				" The file was not recognized as a valid object file\n\n", 2);
 		}
 	}
 	return (0);

@@ -36,11 +36,11 @@ SRC_NAME	=	main.c						\
 				ft_symbol.c					\
 				ft_nm_32.c					\
 				multi_architectural.c		\
-				ft_nm_fat.c					\
 				ft_rev.c					\
-				ft_nm_64_reverse.c			\
 				ft_nm_fat_reverse.c			\
 				ft_options.c				\
+				ft_end_options.c			\
+				ft_insert_sort_functions.c	\
 
 SRC = $(addprefix $(SRC_FOLDER)/, $(SRC_NAME))
 

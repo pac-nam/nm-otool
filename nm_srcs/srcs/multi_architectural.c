@@ -12,27 +12,14 @@
 
 #include "ft_nm.h"
 
-void							ft_debug_segment(t_context *ctx)
+int						ft_new_function(t_context *ctx)
 {
-	t_section_symbol		*tmp;
-
-	tmp = ctx->sec_symbols;
-	while (tmp)
-	{
-		ft_printf("section %c-%d\n", tmp->symbol, tmp->index);
-		tmp = tmp->next;
-	}
-}
-
-int								ft_new_function(t_context *ctx)
-{
-	t_function					*new;
-	int							length;
+	t_function			*new;
+	int					length;
 
 	length = 0;
 	if (!(new = (t_function*)malloc(sizeof(t_function))))
 	{
-		// ft_putendl("debug 5");
 		return (FAIL);
 	}
 	if (*(uint32_t*)ctx->header == MH_MAGIC_64)
@@ -49,9 +36,10 @@ int								ft_new_function(t_context *ctx)
 	return (SUCCESS);
 }
 
-int							ft_new_sec_symbol(t_context *ctx, char symbol, uint32_t index)
+int						ft_new_sec_symbol(t_context *ctx, char symbol,
+uint32_t index)
 {
-	t_section_symbol		*new;
+	t_section_symbol	*new;
 
 	if (!(new = (t_section_symbol*)malloc(sizeof(t_section_symbol))))
 		return (FAIL);
@@ -62,9 +50,9 @@ int							ft_new_sec_symbol(t_context *ctx, char symbol, uint32_t index)
 	return (SUCCESS);
 }
 
-int							ft_important_section(t_context *ctx, char *segment, char *section, int section_index)
+int						ft_important_section(t_context *ctx, char *segment,
+char *section, int section_index)
 {
-	// ft_printf("segment: %s, section: %s\n", segment, section);
 	if (ft_strequ(segment, "__TEXT") && ft_strequ(section, "__text"))
 	{
 		if (ft_new_sec_symbol(ctx, 't', section_index))

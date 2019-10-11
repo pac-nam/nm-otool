@@ -12,7 +12,7 @@
 
 #include "ft_nm.h"
 
-int				ft_invalid_option(char c)
+static int		ft_invalid_option(char c)
 {
 	if (ft_strchr("pruUjg", c))
 		return (SUCCESS);
@@ -22,7 +22,7 @@ int				ft_invalid_option(char c)
 	return (FAIL);
 }
 
-int				ft_new_option(char c1, char c2, int decal, unsigned int *opt)
+static int		ft_new_option(char c1, char c2, int decal, unsigned int *opt)
 {
 	if (c1 != c2)
 		return (SUCCESS);
@@ -37,9 +37,9 @@ int				ft_new_option(char c1, char c2, int decal, unsigned int *opt)
 	return (SUCCESS);
 }
 
-int				ft_get_options(char **str, unsigned int *opt)
+static int		ft_get_options(char **str, unsigned int *opt)
 {
-	int		i;
+	int			i;
 
 	i = 0;
 	if (!(*str)[1])
@@ -62,7 +62,7 @@ int				ft_get_options(char **str, unsigned int *opt)
 	return (SUCCESS);
 }
 
-int				ft_nb_files(unsigned int opt, int nb, int *ac, char **av)
+static int		ft_nb_files(unsigned int opt, int nb, int *ac, char **av)
 {
 	if (!opt)
 		return (0);
@@ -94,12 +94,10 @@ unsigned int	ft_set_options(int *ac, char **av)
 		}
 		else if (av[i][0] != '-')
 		{
-			// ft_printf("file: %s\n", av[i]);
 			++nb_files;
 		}
 		else if (ft_get_options(&(av[i]), &options))
 			return (0);
 	}
-	// ft_printf("nb_files %d, i %d, ac %d\n", nb_files, i, *ac);
 	return (ft_nb_files(options, nb_files + (*ac - i), ac, av));
 }
