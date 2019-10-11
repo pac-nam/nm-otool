@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_otool_parse.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tbleuse <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -12,21 +12,16 @@
 
 #include "ft_otool.h"
 
-int				main(int ac, char **av)
+int					ft_otool_parse(t_context *ctx)
 {
-	int				i;
+	uint32_t		magic_number;
 
-	i = 0;
-	while (++i < ac)
-	{
-		if (av[i] && ft_otool_this_file(av[i]) != SUCCESS)
-		{
-			ft_putstr_fd(av[0], 2);
-			ft_putstr_fd(": '", 2);
-			ft_putstr_fd(av[i], 2);
-			ft_putstr_fd("': truncated or malformed object\n\n", 2);
-			return (-1);
-		}
-	}
-	return (0);
+	magic_number = *(uint32_t*)ctx->header;
+	if (magic_number == MH_MAGIC_64)
+		return (ft_otool_64(ctx));
+	else if (magic_number == MH_MAGIC)
+		return (ft_otool_32(ctx));
+	else if (magic_number == FAT_CIGAM)
+		return (ft_otool_fat_reverse(ctx));
+	return (FAIL);
 }

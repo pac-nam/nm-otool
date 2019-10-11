@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_buff.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tbleuse <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -12,21 +12,21 @@
 
 #include "ft_otool.h"
 
-int				main(int ac, char **av)
+void		ft_otool_buff(t_context *ctx, const char *str)
 {
-	int				i;
+	ctx->print_size = ft_add_buff(&(ctx->to_print[0]), str,
+	4096, ctx->print_size);
+}
 
-	i = 0;
-	while (++i < ac)
-	{
-		if (av[i] && ft_otool_this_file(av[i]) != SUCCESS)
-		{
-			ft_putstr_fd(av[0], 2);
-			ft_putstr_fd(": '", 2);
-			ft_putstr_fd(av[i], 2);
-			ft_putstr_fd("': truncated or malformed object\n\n", 2);
-			return (-1);
-		}
-	}
-	return (0);
+void		ft_otool_buffn(t_context *ctx, const char *str)
+{
+	ctx->print_size = ft_add_buff(&(ctx->to_print[0]), str,
+	4096, ctx->print_size);
+	ctx->print_size = ft_add_buff(&(ctx->to_print[0]), "\n",
+	4096, ctx->print_size);
+}
+
+void		ft_otool_buff_end(t_context *ctx)
+{
+	ctx->print_size = ft_end_buff(&(ctx->to_print[0]), ctx->print_size);
 }

@@ -1,32 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_rev.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tbleuse <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/09/27 09:20:04 by tbleuse           #+#    #+#             */
-/*   Updated: 2019/09/27 09:20:08 by tbleuse          ###   ########.fr       */
+/*   Created: 2018/08/22 12:37:47 by tbleuse           #+#    #+#             */
+/*   Updated: 2018/11/09 15:43:16 by tbleuse          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_otool.h"
 
-int				main(int ac, char **av)
+static char			*ft_rev(char *dst, char *src, int size)
 {
-	int				i;
+	int				index;
 
-	i = 0;
-	while (++i < ac)
-	{
-		if (av[i] && ft_otool_this_file(av[i]) != SUCCESS)
-		{
-			ft_putstr_fd(av[0], 2);
-			ft_putstr_fd(": '", 2);
-			ft_putstr_fd(av[i], 2);
-			ft_putstr_fd("': truncated or malformed object\n\n", 2);
-			return (-1);
-		}
-	}
-	return (0);
+	index = -1;
+	while (size > 0)
+		dst[++index] = src[--size];
+	return (dst);
+}
+
+uint32_t			ft_rev32(uint32_t nb)
+{
+	char			new[4];
+
+	return (*((uint32_t*)ft_rev(&(new[0]), (char*)(&nb), 4)));
+}
+
+uint64_t			ft_rev64(uint64_t nb)
+{
+	char			new[8];
+
+	return (*((uint64_t*)ft_rev(&(new[0]), (char*)(&nb), 8)));
 }

@@ -25,7 +25,16 @@ INCLUDE_FOLDER = includes
 
 OBJ_FOLDER = objs
 
-SRC_NAME	=		main.c				\
+SRC_NAME	=	main.c						\
+				ft_buff.c					\
+				ft_otool_parse.c			\
+				ft_otool_this_file.c		\
+				ft_otool_64.c				\
+				ft_hexdump.c				\
+				ft_check.c					\
+				ft_otool_32.c				\
+				ft_rev.c					\
+				ft_otool_fat_reverse.c		\
 
 SRC = $(addprefix $(SRC_FOLDER)/, $(SRC_NAME))
 
