@@ -24,11 +24,11 @@ all : $(NAME) $(NAME2)
 
 $(NAME): $(SRC1)
 	@make -C $(SRC1)
-	@mv $(SRC1)/$@ .
+	@cp $(SRC1)/$@ .
 
 $(NAME2): 
 	@make -C $(SRC2)
-	@mv $(SRC2)/$@ .
+	@cp $(SRC2)/$@ .
 
 clean :
 	@make clean -C $(SRC1)

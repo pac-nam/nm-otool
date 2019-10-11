@@ -77,4 +77,4 @@ lib : all clean
 
 re : fclean all
 
-.PHONY: $(NAME)
+.PHONY:
