@@ -12,3 +12,7 @@ Les options supportées par ft_nm sont:
 ft_otool reproduit le comportement de la fonction `otool -t` et ne prends pas d'options.
 
 Les architectures 64 bits, 32 bits ainsi que les fat sont supportées.
+
+---------------------------
+
+You have to recode the nm (with no options) and the otool command (exactly the same as otool -t)
